@@ -1,15 +1,12 @@
-name: Fluid Attacks SAST
-
-on:
-  push:
-    branches: [ main ]
-  pull_request:
+name: FluidAttacks Pipeline
+on: [push, pull_request]
 
 jobs:
-  fluidattacks-sast:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Run Fluid Attacks SAST
-        run: |
-          docker run --rm -v "$PWD:/app" fluidattacks/cli:latest ast --path /app
+  SAST:
+      runs-on: ubuntu-latest
+      steps:
+         - uses: actions/checkout@f095bcc56b7c2baf48f3ac70d6d6782f4f553222
+         - uses: docker://docker.io/fluidattacks/sast:latest
+           name: SAST_Fluidattacks
+           with:
+             args: sast scan .
